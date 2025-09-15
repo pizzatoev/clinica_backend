@@ -1,27 +1,26 @@
 package org.example.clinica_backend.mapperdtos;
 
 import org.example.clinica_backend.dtos.ProcedimientoDto;
+import org.example.clinica_backend.entities.Encuentro;
 import org.example.clinica_backend.entities.Procedimiento;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProcedimientoMapper {
 
-    public ProcedimientoDto toDto(Procedimiento e) {
-        if (e == null) return null;
-        ProcedimientoDto dto = new ProcedimientoDto();
-        dto.setId(e.getId());
-        dto.setCodigo(e.getCodigo());
-        dto.setDescripcion(e.getDescripcion());
-        return dto;
+    public static ProcedimientoDto mapToProcedimientoDto(Procedimiento procedimiento) {
+        return new ProcedimientoDto(
+                procedimiento.getId(),
+                procedimiento.getEncuentro().getId(),
+                procedimiento.getCodigo(),
+                procedimiento.getDescripcion()
+        );
     }
 
-    public Procedimiento toEntity(ProcedimientoDto d) {
-        if (d == null) return null;
-        Procedimiento e = new Procedimiento();
-        e.setId(d.getId()); // null al crear
-        e.setCodigo(d.getCodigo());
-        e.setDescripcion(d.getDescripcion());
-        return e;
+    public static Procedimiento mapToProcedimiento(ProcedimientoDto dto, Encuentro encuentro) {
+        Procedimiento procedimiento = new Procedimiento();
+        procedimiento.setId(dto.getId());
+        procedimiento.setEncuentro(encuentro);
+        procedimiento.setCodigo(dto.getCodigo());
+        procedimiento.setDescripcion(dto.getDescripcion());
+        return procedimiento;
     }
 }

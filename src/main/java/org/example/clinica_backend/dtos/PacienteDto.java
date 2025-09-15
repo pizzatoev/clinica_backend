@@ -2,13 +2,14 @@ package org.example.clinica_backend.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class PacienteDto {
     private Long id;
@@ -19,7 +20,4 @@ public class PacienteDto {
     private String sexo;
     private String grupoSanguineo;
     private String alergiasResumen;
-
-    private Set<Long> alergiaIds;
 }
-

@@ -26,11 +26,11 @@ public class OrdenLaboratorio {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EstadoOrden estado = EstadoOrden.SOLICITADO;
+    private EstadoOrden estado = EstadoOrden.Solicitado;
 
     public enum EstadoOrden {
-        SOLICITADO,
-        TOMADO,
-        REPORTADO
+        Solicitado,
+        Tomado,
+        Reportado
     }
 }

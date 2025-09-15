@@ -1,7 +1,7 @@
 package org.example.clinica_backend.controllers;
 
 import lombok.AllArgsConstructor;
-import org.example.clinica_backend.entities.Receta;
+import org.example.clinica_backend.dtos.RecetaDto;
 import org.example.clinica_backend.services.RecetaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +18,23 @@ public class RecetaController {
     private final RecetaService recetaService;
 
     @GetMapping
-    public ResponseEntity<List<Receta>> getAllRecetas() {
+    public ResponseEntity<List<RecetaDto>> getAllRecetas() {
         return ResponseEntity.ok(recetaService.getAllRecetas());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Receta> getRecetaById(@PathVariable Long id) {
+    public ResponseEntity<RecetaDto> getRecetaById(@PathVariable Long id) {
         return ResponseEntity.ok(recetaService.getRecetaById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Receta> createReceta(@RequestBody Receta receta) {
-        return new ResponseEntity<>(recetaService.createReceta(receta), HttpStatus.CREATED);
+    public ResponseEntity<RecetaDto> createReceta(@RequestBody RecetaDto dto) {
+        return new ResponseEntity<>(recetaService.createReceta(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Receta> updateReceta(@PathVariable Long id, @RequestBody Receta receta) {
-        return ResponseEntity.ok(recetaService.updateReceta(id, receta));
+    public ResponseEntity<RecetaDto> updateReceta(@PathVariable Long id, @RequestBody RecetaDto dto) {
+        return ResponseEntity.ok(recetaService.updateReceta(id, dto));
     }
 
     @DeleteMapping("/{id}")

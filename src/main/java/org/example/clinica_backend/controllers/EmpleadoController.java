@@ -1,46 +1,45 @@
 package org.example.clinica_backend.controllers;
 
+import lombok.AllArgsConstructor;
 import org.example.clinica_backend.dtos.EmpleadoDto;
 import org.example.clinica_backend.services.EmpleadoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/empleados")
-@CrossOrigin("*")
 public class EmpleadoController {
 
-    @Autowired
-    private EmpleadoService empleadoService;
+    private final EmpleadoService empleadoService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public EmpleadoDto create(@RequestBody EmpleadoDto empleadoDto) {
-        return empleadoService.create(empleadoDto);
-    }
-
-    @PutMapping("/{id}")
-    public EmpleadoDto update(@PathVariable Long id, @RequestBody EmpleadoDto empleadoDto) {
-        return empleadoService.update(id, empleadoDto);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        empleadoService.delete(id);
+    @GetMapping
+    public ResponseEntity<List<EmpleadoDto>> getAllEmpleados() {
+        return ResponseEntity.ok(empleadoService.getAllEmpleados());
     }
 
     @GetMapping("/{id}")
-    public EmpleadoDto getById(@PathVariable Long id) {
-        return empleadoService.getById(id);
+    public ResponseEntity<EmpleadoDto> getEmpleadoById(@PathVariable Long id) {
+        return ResponseEntity.ok(empleadoService.getEmpleadoById(id));
     }
 
-    @GetMapping
-    public List<EmpleadoDto> listAll() {
-        return empleadoService.listAll();
+    @PostMapping
+    public ResponseEntity<EmpleadoDto> createEmpleado(@RequestBody EmpleadoDto dto) {
+        return new ResponseEntity<>(empleadoService.createEmpleado(dto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpleadoDto> updateEmpleado(@PathVariable Long id, @RequestBody EmpleadoDto dto) {
+        return ResponseEntity.ok(empleadoService.updateEmpleado(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmpleado(@PathVariable Long id) {
+        empleadoService.deleteEmpleado(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

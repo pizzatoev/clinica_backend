@@ -1,60 +1,60 @@
 package org.example.clinica_backend.servicesimpls;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.AllArgsConstructor;
 import org.example.clinica_backend.dtos.EmpleadoDto;
 import org.example.clinica_backend.entities.Empleado;
 import org.example.clinica_backend.exceptions.ResourceNotFoundException;
 import org.example.clinica_backend.mapperdtos.EmpleadoMapper;
 import org.example.clinica_backend.repositories.EmpleadoRepository;
 import org.example.clinica_backend.services.EmpleadoService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-@Transactional
+@AllArgsConstructor
 public class EmpleadoServiceImpl implements EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
-    private final EmpleadoMapper empleadoMapper; // ahora es la clase @Component
 
     @Override
-    public EmpleadoDto create(EmpleadoDto dto) {
-        Empleado entity = empleadoMapper.toEntity(dto);
-        entity.setId(null);
-        return empleadoMapper.toDto(empleadoRepository.save(entity));
+    public List<EmpleadoDto> getAllEmpleados() {
+        return empleadoRepository.findAll()
+                .stream()
+                .map(EmpleadoMapper::mapToEmpleadoDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public EmpleadoDto update(Long id, EmpleadoDto dto) {
-        Empleado e = empleadoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado: " + id));
-        e.setNombres(dto.getNombres());
-        e.setApellidos(dto.getApellidos());
-        e.setEspecialidad(dto.getEspecialidad());
-        return empleadoMapper.toDto(empleadoRepository.save(e));
+    public EmpleadoDto getEmpleadoById(Long id) {
+        Empleado empleado = empleadoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
+        return EmpleadoMapper.mapToEmpleadoDto(empleado);
     }
 
     @Override
-    public void delete(Long id) {
-        if (!empleadoRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Empleado no encontrado: " + id);
-        }
-        empleadoRepository.deleteById(id);
+    public EmpleadoDto createEmpleado(EmpleadoDto dto) {
+        Empleado empleado = EmpleadoMapper.mapToEmpleado(dto);
+        return EmpleadoMapper.mapToEmpleadoDto(empleadoRepository.save(empleado));
     }
 
     @Override
-    public EmpleadoDto getById(Long id) {
-        return empleadoMapper.toDto(
-                empleadoRepository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado: " + id))
-        );
+    public EmpleadoDto updateEmpleado(Long id, EmpleadoDto dto) {
+        Empleado empleado = empleadoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
+
+        empleado.setNombres(dto.getNombres());
+        empleado.setApellidos(dto.getApellidos());
+        empleado.setEspecialidad(dto.getEspecialidad());
+
+        return EmpleadoMapper.mapToEmpleadoDto(empleadoRepository.save(empleado));
     }
 
     @Override
-    public List<EmpleadoDto> listAll() {
-        return empleadoRepository.findAll().stream().map(empleadoMapper::toDto).toList();
+    public void deleteEmpleado(Long id) {
+        Empleado empleado = empleadoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
+        empleadoRepository.delete(empleado);
     }
 }

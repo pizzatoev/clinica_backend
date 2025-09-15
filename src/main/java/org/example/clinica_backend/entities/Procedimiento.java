@@ -2,13 +2,12 @@ package org.example.clinica_backend.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "procedimiento")
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Procedimiento {
@@ -18,13 +17,13 @@ public class Procedimiento {
     @Column(name = "id_procedimiento")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "encuentro_id", nullable = false)
     private Encuentro encuentro;
 
-    @Column(name = "codigo", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String codigo;
 
-    @Column(name = "descripcion", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 }

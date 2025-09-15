@@ -17,34 +17,29 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
 
-    @PostMapping
-    public ResponseEntity<PacienteDto> createPaciente(@RequestBody PacienteDto pacienteDto){
-        PacienteDto paciente = pacienteService.createPaciente(pacienteDto);
-        return new ResponseEntity<>(paciente, HttpStatus.CREATED);
+    @GetMapping
+    public ResponseEntity<List<PacienteDto>> getAllPacientes() {
+        return ResponseEntity.ok(pacienteService.getAllPacientes());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteDto> getPacienteById(@PathVariable("id") Long pacienteId){
-        PacienteDto pacienteDto = pacienteService.getPaciente(pacienteId);
-        return ResponseEntity.ok(pacienteDto);
+    public ResponseEntity<PacienteDto> getPacienteById(@PathVariable Long id) {
+        return ResponseEntity.ok(pacienteService.getPacienteById(id));
     }
 
-    @GetMapping
-    public ResponseEntity<List<PacienteDto>> getAllPacientes(){
-        List<PacienteDto> pacientes = pacienteService.getPacientes();
-        return ResponseEntity.ok(pacientes);
+    @PostMapping
+    public ResponseEntity<PacienteDto> createPaciente(@RequestBody PacienteDto dto) {
+        return new ResponseEntity<>(pacienteService.createPaciente(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PacienteDto> updatePaciente(@PathVariable("id") Long pacienteId,
-                                                      @RequestBody PacienteDto updatedPaciente){
-        PacienteDto pacienteDto = pacienteService.updatePaciente(pacienteId, updatedPaciente);
-        return ResponseEntity.ok(pacienteDto);
+    public ResponseEntity<PacienteDto> updatePaciente(@PathVariable Long id, @RequestBody PacienteDto dto) {
+        return ResponseEntity.ok(pacienteService.updatePaciente(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePaciente(@PathVariable("id") Long pacienteId){
-        pacienteService.deletePaciente(pacienteId);
-        return ResponseEntity.ok("Paciente deleted successfully!.");
+    public ResponseEntity<Void> deletePaciente(@PathVariable Long id) {
+        pacienteService.deletePaciente(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

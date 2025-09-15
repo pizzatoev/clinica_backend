@@ -2,15 +2,14 @@ package org.example.clinica_backend.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "encuentro")
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Encuentro {
@@ -20,21 +19,27 @@ public class Encuentro {
     @Column(name = "id_encuentro")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
     private Empleado medico;
 
-    @Column(name = "fecha", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime fecha;
 
-    // Guardamos el valor textual exacto del ENUM en MySQL: "Consulta", "Urgencia", "Hospitalización"
-    @Column(name = "tipo", nullable = false, length = 30)
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoEncuentro tipo;
 
-    @Column(name = "motivo", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String motivo;
+
+    public enum TipoEncuentro {
+        Consulta,
+        Urgencia,
+        Hospitalización
+    }
 }

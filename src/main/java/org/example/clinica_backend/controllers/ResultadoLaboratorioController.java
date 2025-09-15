@@ -1,7 +1,7 @@
 package org.example.clinica_backend.controllers;
 
 import lombok.AllArgsConstructor;
-import org.example.clinica_backend.entities.ResultadoLaboratorio;
+import org.example.clinica_backend.dtos.ResultadoLaboratorioDto;
 import org.example.clinica_backend.services.ResultadoLaboratorioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +18,23 @@ public class ResultadoLaboratorioController {
     private final ResultadoLaboratorioService resultadoService;
 
     @GetMapping
-    public ResponseEntity<List<ResultadoLaboratorio>> getAllResultados() {
+    public ResponseEntity<List<ResultadoLaboratorioDto>> getAllResultados() {
         return ResponseEntity.ok(resultadoService.getAllResultados());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultadoLaboratorio> getResultadoById(@PathVariable Long id) {
+    public ResponseEntity<ResultadoLaboratorioDto> getResultadoById(@PathVariable Long id) {
         return ResponseEntity.ok(resultadoService.getResultadoById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ResultadoLaboratorio> createResultado(@RequestBody ResultadoLaboratorio resultado) {
-        return new ResponseEntity<>(resultadoService.createResultado(resultado), HttpStatus.CREATED);
+    public ResponseEntity<ResultadoLaboratorioDto> createResultado(@RequestBody ResultadoLaboratorioDto dto) {
+        return new ResponseEntity<>(resultadoService.createResultado(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResultadoLaboratorio> updateResultado(@PathVariable Long id, @RequestBody ResultadoLaboratorio resultado) {
-        return ResponseEntity.ok(resultadoService.updateResultado(id, resultado));
+    public ResponseEntity<ResultadoLaboratorioDto> updateResultado(@PathVariable Long id, @RequestBody ResultadoLaboratorioDto dto) {
+        return ResponseEntity.ok(resultadoService.updateResultado(id, dto));
     }
 
     @DeleteMapping("/{id}")

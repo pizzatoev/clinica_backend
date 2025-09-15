@@ -3,12 +3,10 @@ package org.example.clinica_backend.mapperdtos;
 import org.example.clinica_backend.dtos.PacienteDto;
 import org.example.clinica_backend.entities.Paciente;
 
-import java.util.stream.Collectors;
-
 public class PacienteMapper {
 
-    public static PacienteDto mapPacienteToPacienteDTO(Paciente paciente){
-        return new PacienteDto (
+    public static PacienteDto mapToPacienteDto(Paciente paciente) {
+        return new PacienteDto(
                 paciente.getId(),
                 paciente.getNombres(),
                 paciente.getApellidos(),
@@ -16,24 +14,20 @@ public class PacienteMapper {
                 paciente.getFechaNacimiento(),
                 paciente.getSexo(),
                 paciente.getGrupoSanguineo(),
-                paciente.getAlergiasResumen(),
-                (paciente.getAlergias() == null) ? null :
-                        paciente.getAlergias().stream()
-                                .map(pa -> pa.getAlergia().getId())
-                                .collect(Collectors.toSet())
+                paciente.getAlergiasResumen()
         );
     }
 
-    public static Paciente mapPacienteDTOToPaciente(PacienteDto pacienteDTO){
+    public static Paciente mapToPaciente(PacienteDto dto) {
         Paciente paciente = new Paciente();
-        paciente.setId(pacienteDTO.getId());
-        paciente.setNombres(pacienteDTO.getNombres());
-        paciente.setApellidos(pacienteDTO.getApellidos());
-        paciente.setDocumento(pacienteDTO.getDocumento());
-        paciente.setFechaNacimiento(pacienteDTO.getFechaNacimiento());
-        paciente.setSexo(pacienteDTO.getSexo());
-        paciente.setGrupoSanguineo(pacienteDTO.getGrupoSanguineo());
-        paciente.setAlergiasResumen(pacienteDTO.getAlergiasResumen());
+        paciente.setId(dto.getId());
+        paciente.setNombres(dto.getNombres());
+        paciente.setApellidos(dto.getApellidos());
+        paciente.setDocumento(dto.getDocumento());
+        paciente.setFechaNacimiento(dto.getFechaNacimiento());
+        paciente.setSexo(dto.getSexo());
+        paciente.setGrupoSanguineo(dto.getGrupoSanguineo());
+        paciente.setAlergiasResumen(dto.getAlergiasResumen());
         return paciente;
     }
 }

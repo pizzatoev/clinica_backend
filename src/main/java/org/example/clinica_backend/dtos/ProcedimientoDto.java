@@ -1,12 +1,17 @@
 package org.example.clinica_backend.dtos;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProcedimientoDto {
     private Long id;
-    @NotBlank @Size(max = 50) private String codigo;
+    private Long encuentroId;
+    private String codigo;
     private String descripcion;
 }

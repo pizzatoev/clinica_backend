@@ -17,39 +17,29 @@ public class AlergiaController {
 
     private final AlergiaService alergiaService;
 
-    // Create
-    @PostMapping
-    public ResponseEntity<AlergiaDto> createAlergia(@RequestBody AlergiaDto alergiaDto){
-        AlergiaDto alergia = alergiaService.createAlergia(alergiaDto);
-        return new ResponseEntity<>(alergia, HttpStatus.CREATED);
-    }
-
-    // Get by id
-    @GetMapping("/{id}")
-    public ResponseEntity<AlergiaDto> getAlergiaById(@PathVariable("id") Long alergiaId){
-        AlergiaDto dto = alergiaService.getAlergia(alergiaId);
-        return ResponseEntity.ok(dto);
-    }
-
-    // Get all
     @GetMapping
-    public ResponseEntity<List<AlergiaDto>> getAllAlergias(){
-        List<AlergiaDto> list = alergiaService.getAlergias();
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<AlergiaDto>> getAllAlergias() {
+        return ResponseEntity.ok(alergiaService.getAllAlergias());
     }
 
-    // Update
+    @GetMapping("/{id}")
+    public ResponseEntity<AlergiaDto> getAlergiaById(@PathVariable Long id) {
+        return ResponseEntity.ok(alergiaService.getAlergiaById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<AlergiaDto> createAlergia(@RequestBody AlergiaDto dto) {
+        return new ResponseEntity<>(alergiaService.createAlergia(dto), HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<AlergiaDto> updateAlergia(@PathVariable("id") Long alergiaId,
-                                                    @RequestBody AlergiaDto updated){
-        AlergiaDto dto = alergiaService.updateAlergia(alergiaId, updated);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<AlergiaDto> updateAlergia(@PathVariable Long id, @RequestBody AlergiaDto dto) {
+        return ResponseEntity.ok(alergiaService.updateAlergia(id, dto));
     }
 
-    // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAlergia(@PathVariable("id") Long alergiaId){
-        alergiaService.deleteAlergia(alergiaId);
-        return ResponseEntity.ok("Alergia deleted successfully!.");
+    public ResponseEntity<Void> deleteAlergia(@PathVariable Long id) {
+        alergiaService.deleteAlergia(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

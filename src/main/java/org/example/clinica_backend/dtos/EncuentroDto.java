@@ -1,18 +1,21 @@
 package org.example.clinica_backend.dtos;
 
-import lombok.*;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.example.clinica_backend.enums.TipoEncuentro;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EncuentroDto {
     private Long id;
     private Long pacienteId;
     private Long medicoId;
     private LocalDateTime fecha;
-    private TipoEncuentro tipo; // API devuelve "CONSULTA"
+    private String tipo;   // CONSULTA / URGENCIA / HOSPITALIZACIÓN
     private String motivo;
-    private List<DiagnosticoDto> diagnosticos;
-    private List<ProcedimientoDto> procedimientos;
 }
